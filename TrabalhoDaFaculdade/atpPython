@@ -1,0 +1,90 @@
+import locale
+from datetime import datetime
+locale.setlocale(locale.LC_MONETARY, 'pt_BR.UTF-8')
+
+# etapa 1
+def obter_limite():
+ print("Olá, seja Bem-vindo à Loja da Maria Ísis!")
+ print("Vamos lá, para começar farei uma análise de crédito para você!")
+ print("Para isso por favor informe os dados solicitados abaixo")
+ cargo = input('Digite seu Cargo na empresa em que trabalha atualmente: ')
+ salario = float(input('Digite o valor do seu salário (somente números): '))
+ anoNascimento = int(input('Digite o seu ano de nascimento: '))
+ print("Seu cargo é : " + (cargo))
+ print("Seu salário é: " + locale.currency(salario, grouping=True))
+ print("Você nasceu no ano de: {}".format(anoNascimento))
+
+# etapa 2
+ anoAtual = datetime.today().year
+ idade = (anoAtual) - (anoNascimento)
+ credito = salario * (idade / 1000) + 100
+ print("Sua idade é aproximadamente: {} anos".format(idade))
+ print("O seu limite de crédito pré-aprovado é de: " + locale.currency(credito, grouping=True))
+ return credito, idade
+
+# etapa 3
+def verificar_produto(limite):
+  produto = input('Digite o nome do produto escolhido: ')
+  vlProduto = float(input('Agora o valor do produto: '))
+  print('Você escolheu o produto: ' + str(produto) + ', e o valor dele é: ' + 
+  locale.currency(vlProduto, grouping=True))
+
+  
+  
+  if vlProduto <= limite * 0.6:
+      print('Liberado')
+  elif vlProduto <= limite * 0.9:
+      print('Liberado para parcelar em até 2 vezes')
+  elif vlProduto <= limite * 1.0:
+      print('Liberado para parcelar em 3 ou mais vezes')
+  else:
+      print('Bloqueado')
+ 
+    
+  nmCompleto = ('Paulo Manoel dos Santos Carrilho')
+  tmNomeCompleto = float(len(nmCompleto))
+  pNome = (nmCompleto.split()[0])
+  tmPrimeiroNome = float(len(pNome))
+  nmMaisIdade = int((idade) + (tmNomeCompleto))
+  desconto = float((vlProduto) - (tmPrimeiroNome))
+
+  
+
+  if vlProduto <= nmMaisIdade:
+       vlTotal = vlProduto - desconto
+       print('Você terá um desconto de: ' + locale.currency(tmPrimeiroNome, grouping=True))
+       print('O valor total do produto com desconto será: ' + locale.currency(desconto, grouping=True))
+  else:
+      print('Infelizmente não possuimos desconto para esse produto')
+  return vlProduto
+
+def limite_disponivel():
+    limiteAtual = limite - vlProduto
+    print('Seu limite atual é de: ' + locale.currency(limiteAtual, grouping=True)) 
+    return limiteAtual
+
+limite, idade = obter_limite()
+vlProduto = verificar_produto(limite)
+limite2 = limite_disponivel()
+
+if limite2 >= 1:
+    cadProdutos = int(input('O senhor(a) deseja mais algum produto? Digite 1 pra sim e 2 para não: '))
+    continua = 0
+    if cadProdutos == 1:
+        quantidade = int(input('Quantos produtos deseja cadastrar? '))
+        for index in range(quantidade):
+            produto = input('Digite o nome do produto {} : '.format(index+1))
+            preco = float(input('Informe o preço do produto {} : '.format((index+1))))
+            continua = continua + preco 
+            resto = limite2 - continua
+            print('O seu limite atual é de: ' + locale.currency(resto, grouping=True))
+    
+            if (continua > limite2):
+                print('Limite excedido!')
+                print('Obrigado pela preferência.')
+                break
+    else:
+        print('Obrigado pela preferência')
+else:
+    print('Limite excedido!')
+    print('Obrigado pela preferência.')
